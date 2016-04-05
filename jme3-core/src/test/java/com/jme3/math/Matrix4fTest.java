@@ -10,6 +10,9 @@ public class Matrix4fTest {
 	public Matrix4f invertible_matrix;
 	public Matrix4f m1_16;
 
+	public Vector3f vec3f;
+	public Vector4f vec4f;
+
 	@Before
 	public void setUp() {
 		m = new Matrix4f();
@@ -22,6 +25,9 @@ public class Matrix4fTest {
 				1, 0, 2, -3,
 				3, 0, 2, 0
 		);
+
+		vec3f = new Vector3f(1, 1, 1);
+		vec4f = new Vector4f(1, 1, 1, 1);
 	}
 
 	/**
@@ -74,7 +80,29 @@ public class Matrix4fTest {
 		assertEquals(expected[13], actual.m31, epsilon);
 		assertEquals(expected[14], actual.m32, epsilon);
 		assertEquals(expected[15], actual.m33, epsilon);
+	}
 
+	public void assertVectorEquals(float[] expected, Vector3f actual) {
+		assertVectorEquals(expected, actual, 1e-8f);
+	}
+
+	public void assertVectorEquals(float[] expected, Vector3f actual, float epsilon) {
+		assertEquals(3, expected.length);
+		assertEquals(expected[0], actual.x, epsilon);
+		assertEquals(expected[1], actual.y, epsilon);
+		assertEquals(expected[2], actual.z, epsilon);
+	}
+
+	public void assertVectorEquals(float[] expected, Vector4f actual) {
+		assertVectorEquals(expected, actual, 1e-8f);
+	}
+
+	public void assertVectorEquals(float[] expected, Vector4f actual, float epsilon) {
+		assertEquals(4, expected.length);
+		assertEquals(expected[0], actual.x, epsilon);
+		assertEquals(expected[1], actual.y, epsilon);
+		assertEquals(expected[2], actual.z, epsilon);
+		assertEquals(expected[3], actual.w, epsilon);
 	}
 
 	@Test
@@ -819,6 +847,115 @@ public class Matrix4fTest {
 
 		m1_16.multAcross(null_vec);
 	}
+
+	@Test
+	public void testMultVector3f() {
+		Vector3f rotated_vec = m1_16.mult(vec3f);
+
+		float[] expected = {10, 26, 42};
+
+		assertVectorEquals(expected, rotated_vec);
+	}
+
+	@Test
+	public void testMultVector3fWithStore() {
+		Vector3f store = new Vector3f();
+		Vector3f rotated_vec = m1_16.mult(vec3f, store);
+
+		float[] expected = {10, 26, 42};
+
+		assertVectorEquals(expected, rotated_vec);
+		assertVectorEquals(expected, store);
+		assertSame(rotated_vec, store);
+	}
+
+	@Test
+	public void testMultVector3fWithItselfAsStore() {
+		Vector3f rotated_vec = m1_16.mult(vec3f, vec3f);
+
+		float[] expected = {10, 26, 42};
+
+		assertVectorEquals(expected, rotated_vec);
+		assertVectorEquals(expected, vec3f);
+		assertSame(rotated_vec, vec3f);
+	}
+
+	@Test
+	public void testMultVector4f() {
+		Vector4f rotated_vec = m1_16.mult(vec4f);
+
+		float[] expected = {10, 26, 42, 58};
+
+		assertVectorEquals(expected, rotated_vec);
+	}
+
+	@Test
+	public void testMultVector4fWithStore() {
+		Vector4f store = new Vector4f();
+		Vector4f rotated_vec = m1_16.mult(vec4f, store);
+
+		float[] expected = {10, 26, 42, 58};
+
+		assertVectorEquals(expected, rotated_vec);
+		assertVectorEquals(expected, store);
+		assertSame(rotated_vec, store);
+	}
+
+	@Test
+	public void testMultVector4fWithItselfAsStore() {
+		Vector4f rotated_vec = m1_16.mult(vec4f, vec4f);
+
+		float[] expected = {10, 26, 42, 58};
+
+		assertVectorEquals(expected, rotated_vec);
+		assertVectorEquals(expected, vec4f);
+		assertSame(rotated_vec, vec4f);
+	}
+
+	@Test(expected=NullPointerException.class)
+	public void testMultVector4fNullInput() {
+		Vector4f null_vector = null;
+		m1_16.mult(null_vector);
+	}
+
+	@Test
+	public void testMultAcrossVector4f() {
+		Vector4f rotated_vec = m1_16.multAcross(vec4f);
+
+		float[] expected = {28, 32, 36, 40};
+
+		assertVectorEquals(expected, rotated_vec);
+	}
+
+	@Test
+	public void testMultAcrossVector4fWithStore() {
+		Vector4f store = new Vector4f();
+		Vector4f rotated_vec = m1_16.multAcross(vec4f, store);
+
+		float[] expected = {28, 32, 36, 40};
+
+		assertVectorEquals(expected, rotated_vec);
+		assertVectorEquals(expected, store);
+		assertSame(rotated_vec, store);
+	}
+
+	@Test
+	public void testMultAcrossVector4fWithItselfAsStore() {
+		Vector4f rotated_vec = m1_16.multAcross(vec4f, vec4f);
+
+		float[] expected = {28, 32, 36, 40};
+
+		assertVectorEquals(expected, rotated_vec);
+		assertVectorEquals(expected, vec4f);
+		assertSame(rotated_vec, vec4f);
+	}
+
+	@Test(expected=NullPointerException.class)
+	public void testMultAcrossVector4fNullInput() {
+		Vector4f null_vector = null;
+		m1_16.multAcross(null_vector);
+	}
+
 
 	@Test
 	public void testInvert() {
