@@ -652,7 +652,7 @@ public class Matrix4fTest {
 		assertArrayEquals(expected, store, 1e-8f);
 	}
 
-	@Test(expected=ArrayIndexOutOfBoundsException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void testFillFloatArraySmallArray() {
 		float[] store = new float[1];
 		m1_16.fillFloatArray(store, false);

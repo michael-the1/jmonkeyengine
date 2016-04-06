@@ -752,7 +752,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
     }
 
     public void fillFloatArray(float[] f, boolean columnMajor) {
-        set(f, !columnMajor);
+        get(f, !columnMajor);
     }
 
     /**
