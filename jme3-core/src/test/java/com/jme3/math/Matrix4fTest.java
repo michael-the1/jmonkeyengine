@@ -51,7 +51,7 @@ public class Matrix4fTest {
 	 * @param actual The Matrix4f object to test.
 	 */
 	public void assertMatrixEquals(float[] expected, Matrix4f actual) {
-		assertMatrixEquals(expected, actual, 1e-8f);
+		assertMatrixEquals(expected, actual, 1e-4f);
 	}
 
 	/**
@@ -294,6 +294,25 @@ public class Matrix4fTest {
 		m.copy(null);
 
 		assertEquals(m, Matrix4f.IDENTITY);
+	}
+
+	@Test
+	public void testFromFrame() {
+		Vector3f location = new Vector3f(vec3f);
+		Vector3f direction = new Vector3f(vec3f);
+		Vector3f up = new Vector3f(vec3f);
+		Vector3f left = new Vector3f(vec3f);
+
+		m.fromFrame(location, direction, up, left);
+
+		float[] expected = {
+				0, 0, 0, 0,
+				0, 0, 0, 0,
+				-1, -1, -1, 3,
+				0, 0, 0, 1
+		};
+
+		assertMatrixEquals(expected, m);
 	}
 
 	@Test(expected=NullPointerException.class)
@@ -652,6 +671,28 @@ public class Matrix4fTest {
 	}
 
 	@Test
+	public void testFromAngleAxis() {
+		float angle = FastMath.PI / 2;
+		m.fromAngleAxis(angle, vec3f);
+
+		float u = 1 / (float) Math.sqrt(3f);
+
+		float[] expected = {
+			1/3f, 1/3f - u, 1/3f + u, 0,
+			1/3f + u, 1/3f, 1/3f - u, 0,
+			1/3f - u, 1/3f + u, 1/3f, 0,
+			0, 0, 0, 1
+		};
+
+		assertMatrixEquals(expected, m, 1e-4f);
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void testFromAngleNormalAxisWithNotNormalVectorInput() {
+		m.fromAngleAxis(0f, vec3f);
+	}
+
+	@Test
 	public void testMultLocal() {
 		m.multLocal(2.0f);
 
@@ -878,6 +919,108 @@ public class Matrix4fTest {
 		assertVectorEquals(expected, rotated_vec);
 		assertVectorEquals(expected, vec3f);
 		assertSame(rotated_vec, vec3f);
+	}
+
+	@Test
+	public void testMultVector3fAcross() {
+		Vector3f store = new Vector3f();
+		Vector3f rotated_normal_vec = m1_16.multAcross(vec3f, store);
+
+		float[] expected = {28, 32, 36};
+
+		assertVectorEquals(expected, store);
+		assertVectorEquals(expected, rotated_normal_vec);
+		assertSame(rotated_normal_vec, store);
+	}
+
+	@Test(expected=NullPointerException.class)
+	public void testMultVector3fNullInput() {
+		Vector3f store = new Vector3f();
+		m1_16.multAcross(null, store);
+	}
+
+	@Test
+	public void testMultVector3fAcrossNullStore() {
+		Vector3f rotated_normal_vec = m1_16.multAcross(vec3f, null);
+
+		float[] expected = {28, 32, 36};
+
+		assertVectorEquals(expected, rotated_normal_vec);
+	}
+
+	@Test
+	public void testMultVector3fAcrossWithItselfAsStore() {
+		Vector3f rotated_normal_vec = m1_16.multAcross(vec3f, vec3f);
+
+		float[] expected = {28, 32, 36};
+
+		assertVectorEquals(expected, vec3f);
+		assertVectorEquals(expected, rotated_normal_vec);
+		assertSame(rotated_normal_vec, vec3f);
+	}
+
+	@Test
+	public void testMultVector3fNormal() {
+		Vector3f store = new Vector3f();
+		Vector3f rotated_normal_vec = m1_16.multNormal(vec3f, store);
+
+		float[] expected = {6, 18, 30};
+
+		assertVectorEquals(expected, store);
+		assertVectorEquals(expected, rotated_normal_vec);
+		assertSame(rotated_normal_vec, store);
+	}
+
+	@Test
+	public void testMultVector3fNormalNullStore() {
+		Vector3f rotated_normal_vec = m1_16.multNormal(vec3f, null);
+
+		float[] expected = {6, 18, 30};
+
+		assertVectorEquals(expected, rotated_normal_vec);
+	}
+
+	@Test
+	public void testMultVector3fNormalWithItselfAsStore() {
+		Vector3f rotated_normal_vec = m1_16.multNormal(vec3f, vec3f);
+
+		float[] expected = {6, 18, 30};
+
+		assertVectorEquals(expected, vec3f);
+		assertVectorEquals(expected, rotated_normal_vec);
+		assertSame(rotated_normal_vec, vec3f);
+	}
+
+	@Test
+	public void testMultVector3fNormalAcross() {
+		Vector3f store = new Vector3f();
+		Vector3f rotated_normal_vec = m1_16.multNormalAcross(vec3f, store);
+
+		float[] expected = {15, 18, 21};
+
+		assertVectorEquals(expected, store);
+		assertVectorEquals(expected, rotated_normal_vec);
+		assertSame(rotated_normal_vec, store);
+	}
+
+	@Test
+	public void testMultVector3fNormalAcrossNullStore() {
+		Vector3f rotated_normal_vec = m1_16.multNormalAcross(vec3f, null);
+
+		float[] expected = {15, 18, 21};
+
+		assertVectorEquals(expected, rotated_normal_vec);
+	}
+
+	@Test
+	public void testMultVector3fNormalAcrossWithItselfAsStore() {
+		Vector3f rotated_normal_vec = m1_16.multNormalAcross(vec3f, vec3f);
+
+		float[] expected = {15, 18, 21};
+
+		assertVectorEquals(expected, vec3f);
+		assertVectorEquals(expected, rotated_normal_vec);
+		assertSame(rotated_normal_vec, vec3f);
 	}
 
 	@Test
@@ -1125,6 +1268,75 @@ public class Matrix4fTest {
 		};
 
 		assertMatrixEquals(expected, m1_16);
+	}
+
+	@Test
+	public void testAngleRotation90Deg() {
+		m.angleRotation(new Vector3f(90, 90, 90));
+
+		float[] expected = {
+			0, 0, 1, 0,
+			0, 1, 0, 0,
+			-1, 0, 0, 0,
+			0, 0, 0, 1
+		};
+
+		assertMatrixEquals(expected, m);
+	}
+
+	@Test
+	public void testAngleRotation0Deg() {
+		m.angleRotation(new Vector3f(0, 0, 0));
+
+		float[] expected = {
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		};
+
+		assertMatrixEquals(expected, m);
+	}
+
+	@Test
+	public void testAngleRotation30Deg() {
+		m.angleRotation(new Vector3f(30, 30, 30));
+
+		// cos(30 ) & sin(30)
+		float c = FastMath.sqrt(3) / 2;
+		float s = 1/2f;
+
+		float[] expected = {
+			c*c, -s*c + c*s*s, s*s+c*s*c, 0,
+			s*c, c*c+s*s*s, c*-s+s*s*c, 0,
+			-s, c*s, c*c, 0,
+			0, 0, 0, 1
+		};
+
+		assertMatrixEquals(expected, m);
+	}
+
+	@Test
+	public void testAngleRotationDifferentDegrees() {
+		m.angleRotation(new Vector3f(30, 45, 60));
+
+		System.out.println(m);
+
+		float sx = 1 / 2f;
+		float cx = FastMath.sqrt(3) / 2;
+		float sy = 1 / FastMath.sqrt(2);
+		float cy = 1 / FastMath.sqrt(2);
+		float sz = FastMath.sqrt(3) / 2;
+		float cz = 1 / 2f;
+
+		float[] expected = {
+			cz*cy, -sz*cx+cz*sy*sx, sz*sx+cz*sy*cx, 0,
+			sz*cy, cz*cx+sz*sy*sx, cz*-sx+sz*sy*cx, 0,
+			-sy, cy*sx, cy*cx, 0,
+			0, 0, 0, 1
+		};
+
+		assertMatrixEquals(expected, m);
 	}
 
 	@Test
