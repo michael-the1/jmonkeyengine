@@ -1,4 +1,4 @@
-/.gradle/
+git sa/.gradle/
 /.nb-gradle/private/
 /.nb-gradle/profiles/private/
 /.idea/
@@ -147,3 +147,24 @@
 /sdk/nbi/stub/ext/components/products/jdk/dist/
 /sdk/jme3-dark-laf/nbproject/private/
 jme3-lwjgl3/build/
+jme3-android-native/bin/
+jme3-android/bin/
+jme3-blender/bin/
+jme3-bullet-native-android/bin/
+jme3-bullet-native/bin/
+jme3-bullet/bin/
+jme3-core/bin/
+jme3-desktop/bin/
+jme3-effects/bin/
+jme3-examples/bin/
+jme3-ios/bin/
+jme3-jbullet/bin/
+jme3-jogg/bin/
+jme3-jogl/bin/
+jme3-lwjgl/bin/
+jme3-lwjgl3/bin/
+jme3-networking/bin/
+jme3-niftygui/bin/
+jme3-plugins/bin/
+jme3-terrain/bin/
+jme3-testdata/bin/
