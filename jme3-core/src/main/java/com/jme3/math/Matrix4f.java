@@ -1337,7 +1337,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
     public float[] mult(float[] vec4f) {
         if (null == vec4f || vec4f.length != 4) {
             logger.warning("invalid array given, must be nonnull and length 4");
-            return null;
+            throw new IllegalArgumentException("Invalid array given, must be nonnull and length 4");
         }
 
         float x = vec4f[0], y = vec4f[1], z = vec4f[2], w = vec4f[3];
@@ -1361,7 +1361,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
     public float[] multAcross(float[] vec4f) {
         if (null == vec4f || vec4f.length != 4) {
             logger.warning("invalid array given, must be nonnull and length 4");
-            return null;
+            throw new IllegalArgumentException("Invalid array given, must be nonnull and length 4");
         }
 
         float x = vec4f[0], y = vec4f[1], z = vec4f[2], w = vec4f[3];
