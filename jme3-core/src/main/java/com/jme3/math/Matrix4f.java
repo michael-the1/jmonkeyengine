@@ -1603,22 +1603,8 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
      *            the matrix to add to this.
      */
     public void addLocal(Matrix4f mat) {
-        m00 += mat.m00;
-        m01 += mat.m01;
-        m02 += mat.m02;
-        m03 += mat.m03;
-        m10 += mat.m10;
-        m11 += mat.m11;
-        m12 += mat.m12;
-        m13 += mat.m13;
-        m20 += mat.m20;
-        m21 += mat.m21;
-        m22 += mat.m22;
-        m23 += mat.m23;
-        m30 += mat.m30;
-        m31 += mat.m31;
-        m32 += mat.m32;
-        m33 += mat.m33;
+        Matrix4f added_matrix = this.add(mat);
+        this.copy(added_matrix);
     }
 
     public Vector3f toTranslationVector() {
