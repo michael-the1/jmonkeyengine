@@ -887,7 +887,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
     	if (!axis.isUnitVector()) {
     		throw new IllegalArgumentException("Axis must be normalized");
     	}
-    	
+
         zero();
         m33 = 1;
 
@@ -1343,7 +1343,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
             logger.warning("invalid array given, must be nonnull");
             throw new NullPointerException("Invalid array given, must be nonnull");
         }
-        
+
         if (vec4f.length != 4) {
             logger.warning("invalid array given, must be of length 4");
             throw new IllegalArgumentException("Invalid array given, must be of length 4");
@@ -1372,7 +1372,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
             logger.warning("invalid array given, must be nonnull");
             throw new NullPointerException("Invalid array given, must be nonnull");
         }
-        
+
         if (vec4f.length != 4) {
         	  logger.warning("invalid array given, must be of length 4");
               throw new IllegalArgumentException("Invalid array given, must be of length 4");
@@ -1454,62 +1454,8 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
      * @return this
      */
     public Matrix4f invertLocal() {
-
-        float fA0 = m00 * m11 - m01 * m10;
-        float fA1 = m00 * m12 - m02 * m10;
-        float fA2 = m00 * m13 - m03 * m10;
-        float fA3 = m01 * m12 - m02 * m11;
-        float fA4 = m01 * m13 - m03 * m11;
-        float fA5 = m02 * m13 - m03 * m12;
-        float fB0 = m20 * m31 - m21 * m30;
-        float fB1 = m20 * m32 - m22 * m30;
-        float fB2 = m20 * m33 - m23 * m30;
-        float fB3 = m21 * m32 - m22 * m31;
-        float fB4 = m21 * m33 - m23 * m31;
-        float fB5 = m22 * m33 - m23 * m32;
-        float fDet = fA0 * fB5 - fA1 * fB4 + fA2 * fB3 + fA3 * fB2 - fA4 * fB1 + fA5 * fB0;
-
-        if (FastMath.abs(fDet) <= 0f) {
-        	throw new ArithmeticException("The matrix is not invertible");
-        }
-
-        float f00 = +m11 * fB5 - m12 * fB4 + m13 * fB3;
-        float f10 = -m10 * fB5 + m12 * fB2 - m13 * fB1;
-        float f20 = +m10 * fB4 - m11 * fB2 + m13 * fB0;
-        float f30 = -m10 * fB3 + m11 * fB1 - m12 * fB0;
-        float f01 = -m01 * fB5 + m02 * fB4 - m03 * fB3;
-        float f11 = +m00 * fB5 - m02 * fB2 + m03 * fB1;
-        float f21 = -m00 * fB4 + m01 * fB2 - m03 * fB0;
-        float f31 = +m00 * fB3 - m01 * fB1 + m02 * fB0;
-        float f02 = +m31 * fA5 - m32 * fA4 + m33 * fA3;
-        float f12 = -m30 * fA5 + m32 * fA2 - m33 * fA1;
-        float f22 = +m30 * fA4 - m31 * fA2 + m33 * fA0;
-        float f32 = -m30 * fA3 + m31 * fA1 - m32 * fA0;
-        float f03 = -m21 * fA5 + m22 * fA4 - m23 * fA3;
-        float f13 = +m20 * fA5 - m22 * fA2 + m23 * fA1;
-        float f23 = -m20 * fA4 + m21 * fA2 - m23 * fA0;
-        float f33 = +m20 * fA3 - m21 * fA1 + m22 * fA0;
-
-        m00 = f00;
-        m01 = f01;
-        m02 = f02;
-        m03 = f03;
-        m10 = f10;
-        m11 = f11;
-        m12 = f12;
-        m13 = f13;
-        m20 = f20;
-        m21 = f21;
-        m22 = f22;
-        m23 = f23;
-        m30 = f30;
-        m31 = f31;
-        m32 = f32;
-        m33 = f33;
-
-        float fInvDet = 1.0f / fDet;
-        multLocal(fInvDet);
-
+        Matrix4f inverted_matrix = this.invert();
+        this.copy(inverted_matrix);
         return this;
     }
 
