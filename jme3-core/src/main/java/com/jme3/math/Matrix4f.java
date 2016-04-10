@@ -297,7 +297,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
                 }
         }
 
-        logger.warning("Invalid matrix index.");
+        logger.warning("invalid matrix index");
         throw new IllegalArgumentException("Invalid indices into matrix.");
     }
 
@@ -484,7 +484,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
                 }
         }
 
-        logger.warning("Invalid matrix index.");
+        logger.warning("invalid matrix index");
         throw new IllegalArgumentException("Invalid indices into matrix.");
     }
 
@@ -761,39 +761,39 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
     public Matrix4f readFloatBuffer(FloatBuffer fb, boolean columnMajor) {
 
         if (columnMajor) {
-            m00 = fb.get();
-            m10 = fb.get();
-            m20 = fb.get();
-            m30 = fb.get();
-            m01 = fb.get();
-            m11 = fb.get();
-            m21 = fb.get();
-            m31 = fb.get();
-            m02 = fb.get();
-            m12 = fb.get();
-            m22 = fb.get();
-            m32 = fb.get();
-            m03 = fb.get();
-            m13 = fb.get();
-            m23 = fb.get();
-            m33 = fb.get();
+            m00 = fb.get(0);
+            m10 = fb.get(1);
+            m20 = fb.get(2);
+            m30 = fb.get(3);
+            m01 = fb.get(4);
+            m11 = fb.get(5);
+            m21 = fb.get(6);
+            m31 = fb.get(7);
+            m02 = fb.get(8);
+            m12 = fb.get(9);
+            m22 = fb.get(10);
+            m32 = fb.get(11);
+            m03 = fb.get(12);
+            m13 = fb.get(13);
+            m23 = fb.get(14);
+            m33 = fb.get(15);
         } else {
-            m00 = fb.get();
-            m01 = fb.get();
-            m02 = fb.get();
-            m03 = fb.get();
-            m10 = fb.get();
-            m11 = fb.get();
-            m12 = fb.get();
-            m13 = fb.get();
-            m20 = fb.get();
-            m21 = fb.get();
-            m22 = fb.get();
-            m23 = fb.get();
-            m30 = fb.get();
-            m31 = fb.get();
-            m32 = fb.get();
-            m33 = fb.get();
+            m00 = fb.get(0);
+            m01 = fb.get(1);
+            m02 = fb.get(2);
+            m03 = fb.get(3);
+            m10 = fb.get(4);
+            m11 = fb.get(5);
+            m12 = fb.get(6);
+            m13 = fb.get(7);
+            m20 = fb.get(8);
+            m21 = fb.get(9);
+            m22 = fb.get(10);
+            m23 = fb.get(11);
+            m30 = fb.get(12);
+            m31 = fb.get(13);
+            m32 = fb.get(14);
+            m33 = fb.get(15);
         }
         return this;
     }

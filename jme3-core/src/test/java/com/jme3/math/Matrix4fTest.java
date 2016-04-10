@@ -755,6 +755,38 @@ public class Matrix4fTest {
 		float[] store = null;
 		m1_16.fillFloatArray(store, false);
 	}
+	
+	@Test
+	public void testReadFloatBuffer() {
+		FloatBuffer fb = FloatBuffer.allocate(16);
+		fb = m1_16.fillFloatBuffer(fb);
+		Matrix4f result = m1_16.readFloatBuffer(fb);
+		
+		float[] expected = {
+			1, 2, 3, 4,
+			5, 6, 7, 8,
+			9, 10, 11, 12,
+			13, 14, 15, 16
+		};
+		
+		assertMatrixEquals(expected, result);
+	}
+	
+	@Test
+	public void testReadFloatBufferWithColumnMajor() {
+		FloatBuffer fb = FloatBuffer.allocate(16);
+		fb = m1_16.fillFloatBuffer(fb);
+		Matrix4f result = m1_16.readFloatBuffer(fb, true);
+		
+		float[] expected = {
+			1, 5, 9, 13,
+			2, 6, 10, 14,
+			3, 7, 11, 15,
+			4, 8, 12, 16
+		};
+		
+		assertMatrixEquals(expected, result);
+	}
 
 	@Test
 	public void testLoadIdentity() {
