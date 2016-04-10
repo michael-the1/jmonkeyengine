@@ -4,6 +4,8 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.*;
 
+import java.nio.FloatBuffer;
+
 public class Matrix4fTest {
 
 	public Matrix4f m;
@@ -122,6 +124,18 @@ public class Matrix4fTest {
 		assertEquals(expected[1], actual.y, epsilon);
 		assertEquals(expected[2], actual.z, epsilon);
 		assertEquals(expected[3], actual.w, epsilon);
+	}
+	
+	public void assertFloatBufferEquals(float[] expected, FloatBuffer actual) {
+		assertFloatBufferEquals(expected, actual, 1e-8f);
+	}
+
+	public void assertFloatBufferEquals(float[] expected, FloatBuffer actual, float epsilon) {
+		assertEquals(16, expected.length);
+		
+		for(int i = 0; i < 16; i++) {
+			assertEquals(expected[i], actual.get(i), epsilon);
+		}
 	}
 
 	@Test
@@ -637,6 +651,65 @@ public class Matrix4fTest {
 		};
 
 		assertMatrixEquals(expected, m);
+	}
+	
+	@Test
+	public void testToFloatBuffer() {
+		FloatBuffer fb = m1_16.toFloatBuffer();
+		
+		float[] expected = {
+			1, 2, 3, 4,
+			5, 6, 7, 8,
+			9, 10, 11, 12,
+			13, 14, 15, 16
+		};
+		
+		assertFloatBufferEquals(expected, fb);
+	}
+	
+	@Test
+	public void testToFloatBufferWithColumnMajor() {
+		FloatBuffer fb = m1_16.toFloatBuffer(true);
+		
+		float[] expected = {
+			1, 5, 9, 13,
+			2, 6, 10, 14,
+			3, 7, 11, 15,
+			4, 8, 12, 16
+		};
+		
+		assertFloatBufferEquals(expected, fb);
+	}
+	
+	
+	@Test
+	public void testFillFloatBuffer() {
+		FloatBuffer fb = FloatBuffer.allocate(16);
+		fb = m1_16.fillFloatBuffer(fb);
+		
+		float[] expected = {
+			1, 2, 3, 4,
+			5, 6, 7, 8,
+			9, 10, 11, 12,
+			13, 14, 15, 16
+		};
+		
+		assertFloatBufferEquals(expected, fb);
+	}
+	
+	@Test
+	public void testFillFloatBufferWithColumnMajor() {
+		FloatBuffer fb = FloatBuffer.allocate(16);
+		fb = m1_16.fillFloatBuffer(fb, true);
+		
+		float[] expected = {
+			1, 5, 9, 13,
+			2, 6, 10, 14,
+			3, 7, 11, 15,
+			4, 8, 12, 16
+		};
+		
+		assertFloatBufferEquals(expected, fb);
 	}
 
 	@Test
