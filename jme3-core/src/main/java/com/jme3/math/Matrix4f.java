@@ -373,8 +373,8 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
     public void setColumn(int i, float[] column) {
 
         if (column == null) {
-            logger.warning("Column is null. Ignoring.");
-            return;
+            logger.warning("column must be nonnull");
+            throw new NullPointerException("Column must be nonnull");
         }
         switch (i) {
             case 0:
@@ -884,6 +884,10 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
      *            the axis of rotation (already normalized).
      */
     public void fromAngleNormalAxis(float angle, Vector3f axis) {
+    	if (!axis.isUnitVector()) {
+    		throw new IllegalArgumentException("Axis must be normalized");
+    	}
+    	
         zero();
         m33 = 1;
 
@@ -1145,8 +1149,8 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
      */
     public Vector4f mult(Vector4f vec, Vector4f store) {
         if (null == vec) {
-            logger.warning("Source vector is null, null result returned.");
-            return null;
+            logger.warning("source vector must be nonnull");
+            throw new NullPointerException("Source vector must be nonnull");
         }
         if (store == null) {
             store = new Vector4f();
@@ -1186,8 +1190,8 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
      */
     public Vector4f multAcross(Vector4f vec, Vector4f store) {
         if (null == vec) {
-            logger.warning("Source vector is null, null result returned.");
-            return null;
+            logger.warning("source vector must be nonnull");
+            throw new NullPointerException("Source vector must be nonnull");
         }
         if (store == null) {
             store = new Vector4f();
@@ -1279,8 +1283,8 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
      */
     public Vector3f multAcross(Vector3f vec, Vector3f store) {
         if (null == vec) {
-            logger.warning("Source vector is null, null result returned.");
-            return null;
+            logger.warning("source vector must be nonnull");
+            throw new NullPointerException("Source vector must be nonnull");
         }
         if (store == null) {
             store = new Vector3f();

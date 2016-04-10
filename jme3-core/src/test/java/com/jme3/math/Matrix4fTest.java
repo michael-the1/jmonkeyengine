@@ -686,10 +686,15 @@ public class Matrix4fTest {
 
 		assertMatrixEquals(expected, m, 1e-4f);
 	}
-
+	
+	@Test
+	public void testFromAngleNormalAxisWithNormalVectorInput() {
+		m.fromAngleNormalAxis(0f, vec3f.normalize());
+	}
+	
 	@Test(expected=IllegalArgumentException.class)
 	public void testFromAngleNormalAxisWithNotNormalVectorInput() {
-		m.fromAngleAxis(0f, vec3f);
+		m.fromAngleNormalAxis(0f, vec3f);
 	}
 
 	@Test
@@ -1319,8 +1324,6 @@ public class Matrix4fTest {
 	@Test
 	public void testAngleRotationDifferentDegrees() {
 		m.angleRotation(new Vector3f(30, 45, 60));
-
-		System.out.println(m);
 
 		float sx = 1 / 2f;
 		float cx = FastMath.sqrt(3) / 2;
