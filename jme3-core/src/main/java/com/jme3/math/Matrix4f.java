@@ -1335,9 +1335,14 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
      * @return the vec4f for chaining.
      */
     public float[] mult(float[] vec4f) {
-        if (null == vec4f || vec4f.length != 4) {
-            logger.warning("invalid array given, must be nonnull and length 4");
-            throw new IllegalArgumentException("Invalid array given, must be nonnull and length 4");
+        if (null == vec4f) {
+            logger.warning("invalid array given, must be nonnull");
+            throw new NullPointerException("Invalid array given, must be nonnull");
+        }
+        
+        if (vec4f.length != 4) {
+            logger.warning("invalid array given, must be of length 4");
+            throw new IllegalArgumentException("Invalid array given, must be of length 4");
         }
 
         float x = vec4f[0], y = vec4f[1], z = vec4f[2], w = vec4f[3];
@@ -1359,9 +1364,14 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
      * @return the vec4f for chaining.
      */
     public float[] multAcross(float[] vec4f) {
-        if (null == vec4f || vec4f.length != 4) {
-            logger.warning("invalid array given, must be nonnull and length 4");
-            throw new IllegalArgumentException("Invalid array given, must be nonnull and length 4");
+        if (null == vec4f) {
+            logger.warning("invalid array given, must be nonnull");
+            throw new NullPointerException("Invalid array given, must be nonnull");
+        }
+        
+        if (vec4f.length != 4) {
+        	  logger.warning("invalid array given, must be of length 4");
+              throw new IllegalArgumentException("Invalid array given, must be of length 4");
         }
 
         float x = vec4f[0], y = vec4f[1], z = vec4f[2], w = vec4f[3];
@@ -1456,7 +1466,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
         float fDet = fA0 * fB5 - fA1 * fB4 + fA2 * fB3 + fA3 * fB2 - fA4 * fB1 + fA5 * fB0;
 
         if (FastMath.abs(fDet) <= 0f) {
-            return zero();
+        	throw new ArithmeticException("The matrix is not invertible");
         }
 
         float f00 = +m11 * fB5 - m12 * fB4 + m13 * fB3;
