@@ -1710,7 +1710,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
 	}
 
 	/**
-	 * Retreives the scale vector from the matrix.
+	 * Retrieves the scale vector from the matrix.
 	 *
 	 * @return the scale vector
 	 */
@@ -1721,7 +1721,7 @@ public final class Matrix4f implements Savable, Cloneable, java.io.Serializable 
 	}
 
 	/**
-	 * Retreives the scale vector from the matrix and stores it into a given
+	 * Retrieves the scale vector from the matrix and stores it into a given
 	 * vector.
 	 *
 	 * @param the

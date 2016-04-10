@@ -81,6 +81,25 @@ public class Matrix4fTest {
 		assertEquals(expected[14], actual.m32, epsilon);
 		assertEquals(expected[15], actual.m33, epsilon);
 	}
+	
+	public void assertMatrix3fEquals(float[] expected, Matrix3f actual) {
+		assertMatrix3fEquals(expected, actual, 1e-4f);
+	}
+
+	public void assertMatrix3fEquals(float[] expected, Matrix3f actual, float epsilon) {
+		assertEquals(expected[0], actual.m00, epsilon);
+		assertEquals(expected[1], actual.m01, epsilon);
+		assertEquals(expected[2], actual.m02, epsilon);
+
+		assertEquals(expected[3], actual.m10, epsilon);
+		assertEquals(expected[4], actual.m11, epsilon);
+		assertEquals(expected[5], actual.m12, epsilon);
+
+		assertEquals(expected[6], actual.m20, epsilon);
+		assertEquals(expected[7], actual.m21, epsilon);
+		assertEquals(expected[8], actual.m22, epsilon);
+	}
+	
 
 	public void assertVectorEquals(float[] expected, Vector3f actual) {
 		assertVectorEquals(expected, actual, 1e-8f);
@@ -1274,7 +1293,38 @@ public class Matrix4fTest {
 
 		assertMatrixEquals(expected, m1_16);
 	}
+	
+	@Test
+	public void testToTranslationVector() {
+		Vector3f result = m1_16.toTranslationVector();
+		
+		float[] expected = { 4, 8, 12 };
+		
+		assertVectorEquals(expected, result);
+	}
+	
+	@Test
+	public void testToRotationMatrix() {
+		Matrix3f result = m1_16.toRotationMatrix();
+		
+		float[] expected = { 
+			1, 2, 3,
+			5, 6, 7,
+			9, 10, 11
+		};
+		
+		assertMatrix3fEquals(expected, result);
+	}
+	
+	@Test
+	public void testToScaleVector() {
+		Vector3f result = m1_16.toScaleVector();
 
+		float[] expected = { (float) 10.34408, (float) 11.83216, (float) 13.379088 };
+	
+		assertVectorEquals(expected, result);
+	}
+	
 	@Test
 	public void testAngleRotation90Deg() {
 		m.angleRotation(new Vector3f(90, 90, 90));
